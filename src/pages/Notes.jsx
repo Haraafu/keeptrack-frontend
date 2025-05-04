@@ -69,13 +69,14 @@ export default function Notes() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     navigate("/");
-  };  
+  };
 
   const activeNote = notes.find((n) => n._id === activeNoteId);
 
   return (
     <div className="flex flex-col h-screen bg-gray-950 text-white">
-      <header className="flex items-center justify-between bg-gray-900 px-6 py-3 shadow">
+      {/* Header */}
+      <header className="flex items-center justify-between bg-gray-900 px-4 md:px-6 py-3 shadow">
         <div className="flex items-center gap-4">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -92,6 +93,8 @@ export default function Notes() {
           Logout
         </button>
       </header>
+
+      {/* Body */}
       <div className="flex flex-1 overflow-hidden">
         {sidebarOpen && (
           <Sidebar
@@ -101,7 +104,8 @@ export default function Notes() {
             activeId={activeNoteId}
           />
         )}
-        <main className="flex-1 py-6 px-6 md:px-20 overflow-y-auto">
+
+        <main className="flex-1 py-6 px-4 md:px-20 overflow-y-auto min-w-0">
           {activeNote ? (
             <Editor
               note={activeNote}
@@ -114,7 +118,8 @@ export default function Notes() {
               <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-bold">My Notes</h1>
               </div>
-              {notes.some((note) => note.tags && note.tags.length > 0) && (
+
+              {notes.some((note) => note.tags?.length > 0) && (
                 <div className="mb-6">
                   <div className="text-gray-400 mb-2">Filter by tag:</div>
                   <div className="flex flex-wrap gap-2">
@@ -138,6 +143,7 @@ export default function Notes() {
                   </div>
                 </div>
               )}
+
               <NoteList
                 notes={
                   activeTag
@@ -151,5 +157,5 @@ export default function Notes() {
         </main>
       </div>
     </div>
-  );  
+  );
 }

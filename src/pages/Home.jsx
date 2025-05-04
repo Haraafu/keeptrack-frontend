@@ -37,22 +37,24 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex bg-gray-950 text-white">
-      <div className="relative w-1/2 flex flex-col justify-center items-center">
+    <div className="min-h-screen flex flex-col md:flex-row bg-gray-950 text-white">
+      <div className="relative w-full md:w-1/2 flex flex-col justify-center items-center h-64 md:h-auto">
         <div className="absolute inset-0">
           <img src="/home.webp" alt="home" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-black/60" />
         </div>
-        <h1 className="text-8xl font-extrabold mb-4 text-white drop-shadow-lg z-10">KeepTrack</h1>
-        <p className="text-2xl text-white/90 text-center max-w-lg z-10 mt-4">
+        <h1 className="text-4xl md:text-6xl lg:text-8xl font-extrabold mb-4 text-white drop-shadow-lg z-10 text-center">
+          KeepTrack
+        </h1>
+        <p className="text-base md:text-xl lg:text-2xl text-white/90 text-center max-w-md z-10 mt-2 md:mt-4 px-4">
           Langkah besar berawal dari hal yang tertulis
         </p>
       </div>
-      <div className="w-1/2 flex items-center justify-center px-6">
-        <div className="w-full max-w-md bg-gray-900 rounded-xl shadow-lg p-8">
+      <div className="w-full md:w-1/2 flex items-center justify-center px-4 py-10 md:px-6 md:py-0">
+        <div className="w-full max-w-md bg-gray-900 rounded-xl shadow-lg p-6 md:p-8">
           <div className="flex mb-6 justify-center">
             <button
-              className={`px-4 py-2 rounded-l font-semibold ${
+              className={`w-1/2 px-4 py-2 rounded-l font-semibold ${
                 activeTab === "login" ? "bg-blue-600" : "bg-gray-700"
               }`}
               onClick={() => switchTab("login")}
@@ -60,7 +62,7 @@ export default function Home() {
               Login
             </button>
             <button
-              className={`px-4 py-2 rounded-r font-semibold ${
+              className={`w-1/2 px-4 py-2 rounded-r font-semibold ${
                 activeTab === "register" ? "bg-blue-600" : "bg-gray-700"
               }`}
               onClick={() => switchTab("register")}

@@ -62,6 +62,7 @@ export default function Editor({ note, onUpdate, onDelete, onBack }) {
 
   return (
     <div className="flex flex-col h-full">
+      {/* Header editor */}
       <div className="flex justify-between items-center mb-4">
         <button
           onClick={handleBack}
@@ -69,17 +70,16 @@ export default function Editor({ note, onUpdate, onDelete, onBack }) {
         >
           ← Kembali
         </button>
-        <div className="space-x-2">
-          <button
-            onClick={() => onDelete(note._id)}
-            className="font-semibold bg-red-600 hover:bg-red-500 px-4 py-2 rounded text-white"
-          >
-            Hapus Note Ini
-          </button>
-        </div>
+        <button
+          onClick={() => onDelete(note._id)}
+          className="font-semibold bg-red-600 hover:bg-red-500 px-4 py-2 rounded text-white"
+        >
+          Hapus Note Ini
+        </button>
       </div>
 
-      <div className="bg-gray-900 rounded-lg p-4 flex-1 mb-4">
+      {/* Input judul dan isi */}
+      <div className="bg-gray-900 rounded-lg p-4 flex-1 mb-4 overflow-auto">
         <input
           className="bg-transparent text-white text-2xl font-bold mb-2 w-full outline-none"
           value={title}
@@ -94,13 +94,14 @@ export default function Editor({ note, onUpdate, onDelete, onBack }) {
         />
       </div>
 
+      {/* Tag section */}
       <div className="bg-gray-900 p-4 rounded-lg">
         <div className="text-white mb-2">🏷 Tags</div>
 
-        <div className="flex gap-2 mb-3">
+        <div className="flex flex-wrap gap-2 mb-3">
           <input
             type="text"
-            className="px-3 py-1 rounded text-black"
+            className="px-3 py-1 rounded text-black w-full sm:w-auto"
             placeholder="Tambah tag"
             value={newTag}
             onChange={(e) => setNewTag(e.target.value)}
