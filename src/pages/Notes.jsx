@@ -75,7 +75,6 @@ export default function Notes() {
 
   return (
     <div className="flex flex-col h-screen bg-gray-950 text-white">
-      {/* 🔵 HEADER */}
       <header className="flex items-center justify-between bg-gray-900 px-6 py-3 shadow">
         <div className="flex items-center gap-4">
           <button
@@ -93,9 +92,7 @@ export default function Notes() {
           Logout
         </button>
       </header>
-  
       <div className="flex flex-1 overflow-hidden">
-        {/* 🔵 SIDEBAR */}
         {sidebarOpen && (
           <Sidebar
             notes={notes}
@@ -104,7 +101,6 @@ export default function Notes() {
             activeId={activeNoteId}
           />
         )}
-  
         <main className="flex-1 py-6 px-6 md:px-20 overflow-y-auto">
           {activeNote ? (
             <Editor
@@ -118,8 +114,6 @@ export default function Notes() {
               <div className="flex justify-between items-center mb-6">
                 <h1 className="text-2xl font-bold">My Notes</h1>
               </div>
-  
-              {/* 🔵 Tag Filter */}
               {notes.some((note) => note.tags && note.tags.length > 0) && (
                 <div className="mb-6">
                   <div className="text-gray-400 mb-2">Filter by tag:</div>
@@ -144,7 +138,6 @@ export default function Notes() {
                   </div>
                 </div>
               )}
-  
               <NoteList
                 notes={
                   activeTag

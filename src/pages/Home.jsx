@@ -1,42 +1,98 @@
-import { useState } from 'react';
-import API from '../services/api';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import API from "../services/api";
 
 export default function Home() {
-  const [form, setForm] = useState({ username: '', password: '' });
+  const [activeTab, setActiveTab] = useState("login");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const switchTab = (tab) => {
+    setUsername("");
+    setPassword("");
+    setActiveTab(tab);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!username || !password) {
+      alert("Username dan password wajib diisi.");
+      return;
+    }
+
     try {
-      const res = await API.post('/auth/login', form);
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('user', JSON.stringify(res.data.user));
-      navigate('/notes');
+      if (activeTab === "login") {
+        const res = await API.post("/auth/login", { username, password });
+        localStorage.setItem("token", res.data.token);
+        navigate("/notes");
+      } else {
+        const res = await API.post("/auth/register", { username, password });
+        alert(res.data.message);
+        setActiveTab("login");
+      }
     } catch (err) {
-      alert('Login gagal');
+      alert(err.response?.data?.message || "Terjadi kesalahan.");
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white flex flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold mb-4">KeepTrack</h1>
-      <input
-        className="mb-2 p-2 rounded text-black"
-        placeholder="Username"
-        onChange={(e) => setForm({ ...form, username: e.target.value })}
-      />
-      <input
-        className="mb-2 p-2 rounded text-black"
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setForm({ ...form, password: e.target.value })}
-      />
-      <button
-        onClick={handleLogin}
-        className="bg-blue-600 px-4 py-2 rounded"
-      >
-        Login
-      </button>
+    <div className="min-h-screen flex bg-gray-950 text-white">
+      <div className="relative w-1/2 flex flex-col justify-center items-center">
+        <div className="absolute inset-0">
+          <img src="/home.webp" alt="home" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-black/60" />
+        </div>
+        <h1 className="text-8xl font-extrabold mb-4 text-white drop-shadow-lg z-10">KeepTrack</h1>
+        <p className="text-2xl text-white/90 text-center max-w-lg z-10 mt-4">
+          Langkah besar berawal dari hal yang tertulis
+        </p>
+      </div>
+      <div className="w-1/2 flex items-center justify-center px-6">
+        <div className="w-full max-w-md bg-gray-900 rounded-xl shadow-lg p-8">
+          <div className="flex mb-6 justify-center">
+            <button
+              className={`px-4 py-2 rounded-l font-semibold ${
+                activeTab === "login" ? "bg-blue-600" : "bg-gray-700"
+              }`}
+              onClick={() => switchTab("login")}
+            >
+              Login
+            </button>
+            <button
+              className={`px-4 py-2 rounded-r font-semibold ${
+                activeTab === "register" ? "bg-blue-600" : "bg-gray-700"
+              }`}
+              onClick={() => switchTab("register")}
+            >
+              Register
+            </button>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              type="text"
+              placeholder="Username"
+              className="w-full px-4 py-2 rounded bg-gray-800 text-white focus:outline-none"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              className="w-full px-4 py-2 rounded bg-gray-800 text-white focus:outline-none"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button
+              type="submit"
+              className="w-full py-2 bg-blue-600 hover:bg-blue-500 rounded text-white font-semibold"
+            >
+              {activeTab === "login" ? "Masuk" : "Daftar"}
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
